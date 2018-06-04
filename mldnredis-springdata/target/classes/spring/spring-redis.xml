@@ -5,6 +5,18 @@
 	<!-- 3、配置RedisTemplate操作模版，利用此模版可以方便的进行Redis的数据操作 -->
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
 		<property name="connectionFactory" ref="jedisConnectionFactory"/>
+		<property name="keySerializer">	<!-- 进行key的序列化管理定义 -->
+			<bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+		</property>
+		<property name="valueSerializer">	<!-- 可以保存各种对象 -->
+			<bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+		</property>
+		<property name="hashKeySerializer">
+			<bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+		</property>
+		<property name="hashValueSerializer">
+			<bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+		</property>
 	</bean>
 	
 	<!-- 1、进行Jedis连接池的相关属性定义 -->
