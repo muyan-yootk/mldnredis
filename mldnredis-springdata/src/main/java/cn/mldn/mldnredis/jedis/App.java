@@ -1,5 +1,7 @@
 package cn.mldn.mldnredis.jedis;
 
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+
 /**
  * Hello world!
  *
