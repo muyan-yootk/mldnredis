@@ -5,6 +5,7 @@ import java.util.Date;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -19,6 +20,8 @@ public class TestMember {
 
 	@Test
 	public void testSave() throws Exception {
+		
+		
 		Member member = new Member() ;
 		member.setIdcard(10101010101L);
 		member.setMid("小强强");
