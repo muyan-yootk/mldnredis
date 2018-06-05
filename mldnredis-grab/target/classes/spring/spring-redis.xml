@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- 3、配置RedisTemplate操作模版，利用此模版可以方便的进行Redis的数据操作 -->
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="jedisConnectionFactory"/>
+		<property name="keySerializer">	<!-- 进行key的序列化管理定义 -->
+			<bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+		</property>
+		<property name="valueSerializer">	<!-- 可以保存各种对象 -->
+			<bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+		</property>
+		<property name="hashKeySerializer">
+			<bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+		</property>
+		<property name="hashValueSerializer">
+			<bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+		</property>
+	</bean>
+	
+	<!-- 1、进行Jedis连接池的相关属性定义 -->
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxTotal" value="${redis.pool.maxTotal}"/>
+		<property name="maxIdle" value="${redis.pool.maxIdle}"/>
+		<property name="testOnBorrow" value="${redis.pool.testOnBorrow}"/>
+		<property name="maxWaitMillis" value="${redis.pool.maxWaitMillis}"/>
+	</bean>
+	<!-- 2、根据连接池的配置进行连接工厂的定义，此时使用Spring提供的连接工厂类 -->
+	<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<property name="poolConfig" ref="jedisPoolConfig"/>
+		<property name="hostName" value="${redis.host}"/>
+		<property name="port" value="${redis.port}"/>
+		<property name="password" value="${redis.auth}"/>
+		<property name="timeout" value="${redis.timeout}"/>
+	</bean> 
+</beans>
