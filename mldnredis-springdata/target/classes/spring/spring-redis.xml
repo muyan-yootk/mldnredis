@@ -20,36 +20,62 @@
 	</bean>
 	
 	<!-- 1、进行Jedis连接池的相关属性定义 -->
-	<bean id="sentinelConfiguration" class="org.springframework.data.redis.connection.RedisSentinelConfiguration">
-		<property name="master">
-			<bean class="org.springframework.data.redis.connection.RedisNode">
-				<property name="name" value="${redis.sentinel.master.name}"/>
-			</bean> 
-		</property>
-		<property name="sentinels">
+	<bean id="clusterConfiguration" class="org.springframework.data.redis.connection.RedisClusterConfiguration">
+		<property name="maxRedirects" value="${redis.cluster.max-redirect}"/>
+		<property name="clusterNodes">
 			<set>
 				<bean class="org.springframework.data.redis.connection.RedisNode">
-					<constructor-arg name="host" value="${redis.sentinel-1.host}"/>
-					<constructor-arg name="port" value="${redis.sentinel-1.port}"/>
+					<constructor-arg name="host" value="${redis.cluster.node-1.host}"/>
+					<constructor-arg name="port" value="${redis.cluster.node-1.port}"/>
 				</bean>
 				<bean class="org.springframework.data.redis.connection.RedisNode">
-					<constructor-arg name="host" value="${redis.sentinel-2.host}"/>
-					<constructor-arg name="port" value="${redis.sentinel-2.port}"/>
+					<constructor-arg name="host" value="${redis.cluster.node-2.host}"/>
+					<constructor-arg name="port" value="${redis.cluster.node-2.port}"/>
 				</bean>
 				<bean class="org.springframework.data.redis.connection.RedisNode">
-					<constructor-arg name="host" value="${redis.sentinel-3.host}"/>
-					<constructor-arg name="port" value="${redis.sentinel-3.port}"/>
+					<constructor-arg name="host" value="${redis.cluster.node-3.host}"/>
+					<constructor-arg name="port" value="${redis.cluster.node-3.port}"/>
+				</bean>
+				<bean class="org.springframework.data.redis.connection.RedisNode">
+					<constructor-arg name="host" value="${redis.cluster.node-4.host}"/>
+					<constructor-arg name="port" value="${redis.cluster.node-4.port}"/>
+				</bean>
+				<bean class="org.springframework.data.redis.connection.RedisNode">
+					<constructor-arg name="host" value="${redis.cluster.node-5.host}"/>
+					<constructor-arg name="port" value="${redis.cluster.node-5.port}"/>
+				</bean>
+				<bean class="org.springframework.data.redis.connection.RedisNode">
+					<constructor-arg name="host" value="${redis.cluster.node-6.host}"/>
+					<constructor-arg name="port" value="${redis.cluster.node-6.port}"/>
+				</bean>
+				<bean class="org.springframework.data.redis.connection.RedisNode">
+					<constructor-arg name="host" value="${redis.cluster.node-7.host}"/>
+					<constructor-arg name="port" value="${redis.cluster.node-7.port}"/>
+				</bean>
+				<bean class="org.springframework.data.redis.connection.RedisNode">
+					<constructor-arg name="host" value="${redis.cluster.node-8.host}"/>
+					<constructor-arg name="port" value="${redis.cluster.node-8.port}"/>
+				</bean>
+				<bean class="org.springframework.data.redis.connection.RedisNode">
+					<constructor-arg name="host" value="${redis.cluster.node-9.host}"/>
+					<constructor-arg name="port" value="${redis.cluster.node-9.port}"/>
 				</bean>
 			</set>
 		</property>
 	</bean>
 	<!-- 2、根据连接池的配置进行连接工厂的定义，此时使用Spring提供的连接工厂类 -->
 	<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-		<constructor-arg name="sentinelConfig" ref="sentinelConfiguration"/>
+		<constructor-arg name="clusterConfig" ref="clusterConfiguration"/>
 		<property name="password" value="${redis.auth}"/>
 		<property name="timeout" value="${redis.timeout}"/>
+		<property name="poolConfig" ref="jedisPoolConfig"/>
 	</bean>
-	
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxTotal" value="${redis.pool.maxTotal}"/>
+		<property name="maxIdle" value="${redis.pool.maxIdle}"/>
+		<property name="testOnBorrow" value="${redis.pool.testOnBorrow}"/>
+		<property name="maxWaitMillis" value="${redis.pool.maxWaitMillis}"/>
+	</bean>
 	<!-- <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<property name="maxTotal" value="${redis.pool.maxTotal}"/>
 		<property name="maxIdle" value="${redis.pool.maxIdle}"/>
