@@ -251,7 +251,6 @@
 		</plugins>
 	</build>
 	<modules>
-		<module>mldnredis-jedis</module>
-		<module>mldnredis-springdata</module>
+		<module>mldnredis-grab</module>
 	</modules>
 </project>
