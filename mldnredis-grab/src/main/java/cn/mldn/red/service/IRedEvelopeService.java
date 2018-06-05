@@ -10,4 +10,11 @@ public interface IRedEvelopeService {
 	 * @return 如果红包创建成功返回一个自定义的key
 	 */
 	public String add(String userid, int amount, double money);
+	/**
+	 * 进行红包信息的抢夺
+	 * @param key 要获取的key信息
+	 * @param userid 用户编号
+	 * @return 用户的红包的抢夺记录
+	 */
+	public Double grab(String key, String userid);
 }

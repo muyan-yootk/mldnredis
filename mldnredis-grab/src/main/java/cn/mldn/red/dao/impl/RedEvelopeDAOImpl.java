@@ -11,6 +11,35 @@ import cn.mldn.red.dao.IRedEvelopeDAO;
 public class RedEvelopeDAOImpl implements IRedEvelopeDAO {
 	@Autowired
 	private RedisTemplate<String,Double> redisTemplate ;
+	
+	@Override
+	public long findSize(String key) {
+		return this.redisTemplate.opsForList().size(key);
+	}
+	
+	@Override
+	public Double doEdit(String key) {
+		Double result = this.redisTemplate.opsForList().leftPop(key) ;
+		return result ;	// 如果现在还有数据则result的内容不为空
+	}
+	
+	@Override
+	public boolean doCreateGrab(String key, String userid, double money) {
+		if (this.redisTemplate.opsForHash().hasKey(key, userid)) {	// key存在
+			return false;
+		} else {
+			this.redisTemplate.opsForHash().put(key, userid, money);	// 进行数据的保存
+			return true ; 
+		}
+	}
+	@Override
+	public Double findByGrab(String key, String userid) {
+		if (this.redisTemplate.opsForHash().hasKey(key, userid)) {	// 数据存在了
+			return (Double) this.redisTemplate.opsForHash().get(key, userid) ; // 返回已经抢过记录
+		}
+		return null; // 数据不存在返回null
+	} 
+	
 	@Override
 	public boolean doCreateMoney(String key, Double money) {
 		this.redisTemplate.opsForValue().set(key, money);

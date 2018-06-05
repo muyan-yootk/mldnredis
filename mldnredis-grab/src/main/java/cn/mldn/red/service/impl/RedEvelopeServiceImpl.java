@@ -13,6 +13,23 @@ import cn.mldn.util.SplitMoneyUtil;
 public class RedEvelopeServiceImpl implements IRedEvelopeService {
 	@Autowired
 	private IRedEvelopeDAO dao ;
+	
+	@Override
+	public Double grab(String key, String userid) {
+		if (this.dao.findSize(key) > 0) {	// 现在还有红包内容
+			if (this.dao.findByGrab(key, userid) == null) {	// 用户没有抢过红包
+				Double money = this.dao.doEdit(key) ; // 从List集合里面抢夺红包
+				if (money != null) {	// 抢到了红包
+					String hashKey = "result-" + key ; // 生成hash-key的内容
+					if (this.dao.doCreateGrab(hashKey, userid, money)) {
+						return money ;
+					}
+				}
+			}
+		}
+		return null;
+	} 
+	
 	@Override
 	public String add(String userid, int amount, double money) {
 		SplitMoneyUtil smu = new SplitMoneyUtil(amount, money);
