@@ -1,6 +1,9 @@
 package cn.mldn.red.dao.impl;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -11,6 +14,18 @@ import cn.mldn.red.dao.IRedEvelopeDAO;
 public class RedEvelopeDAOImpl implements IRedEvelopeDAO {
 	@Autowired
 	private RedisTemplate<String,Double> redisTemplate ;
+	
+	@Override
+	public Map<String, Double> findResult(String key) {
+		Map<String,Double> map = new HashMap<String,Double>() ;
+		Map<Object, Object> result = this.redisTemplate.opsForHash().entries(key);
+		Iterator<Map.Entry<Object,Object>> iter = result.entrySet().iterator() ;
+		while (iter.hasNext()) {
+			Map.Entry<Object,Object> entry = iter.next() ;
+			map.put((String) entry.getKey(), (Double) entry.getValue());
+		}
+		return map ;
+	}
 	
 	@Override
 	public Double findAll(String key) {

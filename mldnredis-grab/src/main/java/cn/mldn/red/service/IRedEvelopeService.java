@@ -1,6 +1,14 @@
 package cn.mldn.red.service;
 
+import java.util.Map;
+
 public interface IRedEvelopeService {
+	/**
+	 * 获取红包的抢夺结果
+	 * @param key 红包key
+	 * @return 抢夺记录
+	 */
+	public Map<String,Double> result(String key) ; 
 	/**
 	 * 获得红包总金额
 	 * @return 总额

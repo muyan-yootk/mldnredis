@@ -1,9 +1,21 @@
 package cn.mldn.red.dao;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IRedEvelopeDAO {
+	/**
+	 * 获取红包的抢夺结果
+	 * @param key 要获取的key
+	 * @return 红包信息记录
+	 */
+	public Map<String,Double> findResult(String key) ;  
 	
+	/**
+	 * 查询红包总额
+	 * @param key 红包key
+	 * @return 返回总额
+	 */
 	public Double findAll(String key) ;
 	
 	/**

@@ -1,6 +1,7 @@
 package cn.mldn.red.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,11 @@ import cn.mldn.util.SplitMoneyUtil;
 public class RedEvelopeServiceImpl implements IRedEvelopeService {
 	@Autowired
 	private IRedEvelopeDAO dao ;
+	
+	@Override
+	public Map<String, Double> result(String key) {
+		return this.dao.findResult("result-" + key);
+	}
 	
 	public Double money(String key) {
 		return this.dao.findAll(key + "-money") ;

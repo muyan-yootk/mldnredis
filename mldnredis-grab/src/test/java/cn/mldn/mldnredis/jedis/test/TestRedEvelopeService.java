@@ -1,5 +1,6 @@
 package cn.mldn.mldnredis.jedis.test;
 
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 import org.junit.Test;
@@ -18,6 +19,15 @@ public class TestRedEvelopeService {
 	private double money = 200.0 ;
 	private int amount = 30 ;
 	private String redKey = "envelope-qiangzi-1528180437987" ;
+	
+	@Test
+	public void testResult() {
+		Map<String,Double> result = this.service.result(redKey) ;
+		result.forEach((key,value)->{
+			System.out.println(key + " = " + value);
+		});
+	}
+	
 	@Test
 	public void testGrab() throws Exception {	// 抢红包
 		System.out.println("红包总金额：" + this.service.money(redKey));
