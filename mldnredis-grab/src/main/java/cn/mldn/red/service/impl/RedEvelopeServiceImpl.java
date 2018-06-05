@@ -14,10 +14,14 @@ public class RedEvelopeServiceImpl implements IRedEvelopeService {
 	@Autowired
 	private IRedEvelopeDAO dao ;
 	
+	public Double money(String key) {
+		return this.dao.findAll(key + "-money") ;
+	}
+	
 	@Override
 	public Double grab(String key, String userid) {
 		if (this.dao.findSize(key) > 0) {	// 现在还有红包内容
-			if (this.dao.findByGrab(key, userid) == null) {	// 用户没有抢过红包
+			if (this.dao.findByGrab("result-" + key, userid) == null) {	// 用户没有抢过红包
 				Double money = this.dao.doEdit(key) ; // 从List集合里面抢夺红包
 				if (money != null) {	// 抢到了红包
 					String hashKey = "result-" + key ; // 生成hash-key的内容

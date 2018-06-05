@@ -3,6 +3,9 @@ package cn.mldn.red.dao;
 import java.util.List;
 
 public interface IRedEvelopeDAO {
+	
+	public Double findAll(String key) ;
+	
 	/**
 	 * 获取指定的红包集合是否还有数据存在，如果没有数据则无法进行抢夺
 	 * @param key List集合key

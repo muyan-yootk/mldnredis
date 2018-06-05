@@ -13,6 +13,11 @@ public class RedEvelopeDAOImpl implements IRedEvelopeDAO {
 	private RedisTemplate<String,Double> redisTemplate ;
 	
 	@Override
+	public Double findAll(String key) {
+		return this.redisTemplate.opsForValue().get(key);
+	}
+	
+	@Override
 	public long findSize(String key) {
 		return this.redisTemplate.opsForList().size(key);
 	}
