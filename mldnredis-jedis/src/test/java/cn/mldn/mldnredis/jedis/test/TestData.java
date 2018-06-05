@@ -12,11 +12,11 @@ import cn.mldn.util.redis.RedisConnectionUtil;
 import redis.clients.jedis.GeoCoordinate;
 import redis.clients.jedis.GeoRadiusResponse;
 import redis.clients.jedis.GeoUnit;
-import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.params.geo.GeoRadiusParam;
 
 public class TestData {
-	private static Jedis jedis ;
+	private static JedisCluster jedis ;
 	static {	// 优先于所有方法执行，可以做一些初始化操作
 		RedisConnectionUtil rcu = new RedisConnectionUtil() ;
 		jedis = rcu.getConnection() ;
@@ -28,16 +28,7 @@ public class TestData {
 		}
 	} 
 	
-	@Test
-	public void testKeys() throws Exception {
-		Set<String> set = jedis.keys("mldn-*") ; // 获得指定类型全部key
-		set.forEach(System.out::println);
-	} 
 	
-	@Test
-	public void testFlush() throws Exception {
-		jedis.flushDB() ;
-	} 
 	@Test
 	public void testStringData() throws Exception {
 		jedis.set("mldn", "java") ; // 设置数据
