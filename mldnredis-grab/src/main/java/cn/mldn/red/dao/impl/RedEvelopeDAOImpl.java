@@ -12,6 +12,12 @@ public class RedEvelopeDAOImpl implements IRedEvelopeDAO {
 	@Autowired
 	private RedisTemplate<String,Double> redisTemplate ;
 	@Override
+	public boolean doCreateMoney(String key, Double money) {
+		this.redisTemplate.opsForValue().set(key, money);
+		return true ;
+	} 
+	
+	@Override
 	public boolean doCreate(String key, List<Double> packs) {
 		return this.redisTemplate.opsForList().leftPushAll(key, packs) == packs.size() ;
 	} 

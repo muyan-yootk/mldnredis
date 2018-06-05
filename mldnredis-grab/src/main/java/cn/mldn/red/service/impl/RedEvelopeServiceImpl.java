@@ -20,7 +20,9 @@ public class RedEvelopeServiceImpl implements IRedEvelopeService {
 		if (SplitCheckUtil.check(list, money)) {	// 红包拆分后的金额和总金额相同
 			String key = "envelope-" + userid + "-" + System.currentTimeMillis() ;
 			if (this.dao.doCreate(key, list)) {	// 数据保存成功
-				return key ; // 返回生成的key信息
+				if (this.dao.doCreateMoney(key + "-money", money)) {
+					return key ; // 返回生成的key信息
+				} 
 			}
 		}
 		return null;	// 该红包没有被创建
